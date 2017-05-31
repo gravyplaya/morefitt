@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>{{'HOME' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="home">
+  <h2>{{'HOME_TITLE' | translate}}</h2>
+  <p>
+    {{'HOME_MESSAGE' | translate}}
+  </p>
+  <ion-list>
+    <ion-item *ngFor="let page of pages" (click)="openPage(page)">
+      <ion-icon [name]="page.icon" item-left></ion-icon>
+      {{page.title}}
+      <ion-note item-right>
+      {{page.note}}
+      </ion-note>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "159420957521",
+    "firebase_url": "https://morefitt-44f0a.firebaseio.com",
+    "project_id": "morefitt-44f0a",
+    "storage_bucket": "morefitt-44f0a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159420957521:android:5e37f23b316c94e3",
+        "android_client_info": {
+          "package_name": "com.morefitt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159420957521-4078ihia2upef5gd1h1nvco17dkprjrq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARx-L0VMSh6ho5wUAgQY6BO8gzq2ZVW4I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

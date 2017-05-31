@@ -1,0 +1,67 @@
+<ion-header>
+	<ion-navbar>
+		<button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title *ngIf="post">{{post.name}}</ion-title>
+		<!--ion-buttons end>
+	      <button (click)="sharePost()" ion-button icon-only>
+	        <ion-icon name="share"></ion-icon>
+	      </button>
+	    </ion-buttons-->
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="post" [ngStyle]="{'background-image': 'url('+post.avatar+')', 'background-size':'cover'}">
+
+  <ion-list *ngIf="post">
+        <div class="view-mask2">
+        <div class="row">
+          <div class="col">
+            <p class="first-name">{{ post.name }}</p>
+            <p class="last-name">{{ post.slug  }}</p>
+            <div class="buttons-row">
+              <a  (click)="setTab(1)"><button [attr.class]="isSet(1) ? 'active' : ''" class="button button-small button-clear">WORKOUTS</button></a>
+              <a  (click)="setTab(2)"><button [attr.class]="isSet(2) ? 'active' : ''" class="button button-small button-clear">NUTRITION</button></a>
+              <a  (click)="setTab(3)"><button [attr.class]="isSet(3) ? 'active' : ''" class="button button-small button-clear">ABOUT</button></a>
+            </div>
+          </div>
+            <button class="button button-small button-clear subscribe next" ui-sref="register({trainer: post.slug })" *ngIf="!user">SUBSCRIBE</button>
+            <button class="button button-small button-clear subscribed" *ngIf="user" >SUBSCRIBED</button>
+        </div>
+      </div>
+      <div class="" *ngIf="isSet(1)">
+        <ion-card *ngFor="let workout of workouts">
+          <ion-card-content>
+            <a (click)="loadPost(workout)">{{workout.title}}</a>
+            <p [innerHtml]="workout.excerpt"></p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div class="" *ngIf="isSet(2)">
+          <div class="row">
+            <div class="col" ><a href="https://www.morefitt.com/mealdelivery/"><img src="/assets/img/organic-meal-delivery-sm.png" style="width:100%"></a></div>
+          </div>
+        <ion-card *ngFor="let nutrition of nutritions">
+          <ion-card-content>
+            <a (click)="loadPost(nutrition)">{{nutrition.title}}</a>
+            <p [innerHtml]="nutrition.excerpt"></p>
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+
+      <div class="" *ngIf="isSet(3)">
+        <div class="card" >
+          <div class="item item-text-wrap">
+            <p>Height: </p>
+            <p>Weight: </p>
+            <p>Fun Fact: </p>
+          </div>
+        </div>
+      </div>
+
+</ion-list>
+</ion-content>
+

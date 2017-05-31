@@ -1,0 +1,30 @@
+<ion-header>
+	<ion-navbar>
+			<button ion-button menuToggle>
+				<ion-icon name="menu"></ion-icon>
+			</button>
+		<ion-title text-uppercase>TRAINERS</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<!-- TRAINERS TAB:  just show the trainers list -->
+
+	<ion-card *ngFor="let post of trainers">
+        <ion-item text-wrap (click)="loadPost(post)">
+        	<ion-avatar item-left>
+		        <img [src]="post.avatar">
+		    </ion-avatar>
+            <h1 text-capitalize>{{post.name}}</h1>
+            <!-- <h4 class="date">{{post.date | date: 'fullDate'}}</h4> -->
+        </ion-item>
+	</ion-card>
+
+	<ion-infinite-scroll (ionInfinite)="loadMore($event)">
+	   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+
+
+
+</ion-content>

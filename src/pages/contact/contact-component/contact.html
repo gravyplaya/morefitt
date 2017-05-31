@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      {{'CONTACT' | translate}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>Contact Us</ion-list-header>
+    <ion-item>
+      <ion-icon name="person" item-left></ion-icon>
+      More Fitt
+    </ion-item>
+    <ion-item>
+      <ion-icon name="logo-twitter" item-left></ion-icon>
+      @more_fitt
+    </ion-item>
+    <ion-item>
+      <ion-icon name="mail" item-left></ion-icon>
+      info@morefitt.com
+    </ion-item>
+    <ion-item>
+      <ion-icon name="leaf" item-left></ion-icon>
+      www.morefitt.com
+    </ion-item>
+  </ion-list>
+
+  <form (submit)="sendEmail()">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Subject</ion-label>
+        <ion-input type="text" [(ngModel)]="email.subject" name="subject"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Message</ion-label>
+        <ion-textarea rows="3" [(ngModel)]="email.body" name="body"></ion-textarea>
+      </ion-item>
+
+      <div padding>
+        <button ion-button color="primary" block>Send email</button>
+      </div>
+
+    </ion-list>
+  </form>
+</ion-content>

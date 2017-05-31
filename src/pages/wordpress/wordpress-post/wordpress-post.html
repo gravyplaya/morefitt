@@ -1,0 +1,50 @@
+<ion-header>
+	<ion-navbar>
+		<button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title *ngIf="post">{{post.title}}</ion-title>
+		<!--ion-buttons end>
+	      <button (click)="sharePost()" ion-button icon-only>
+	        <ion-icon name="share"></ion-icon>
+	      </button>
+	    </ion-buttons-->
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="post">
+  <ion-list *ngIf="post">
+    <ion-card>
+        <ion-item text-wrap>
+            <h1>{{post.title}}</h1>
+            <!-- <h4 class="date">{{post.date | date: 'fullDate'}}</h4> -->
+        </ion-item>
+
+    </ion-card>
+
+    <ion-card text-wrap *ngIf="post.content">
+        <p padding [innerHtml]="post.content"></p>
+    </ion-card>
+
+      <ul class='timeline ' *ngFor="let pm of postMetas">
+        <li class="year first">Day {{pm.day_number}}</li>
+        <li class='event ' *ngFor="let meta2 of pm.exercises" >
+          <div class="row"> <div class="col wotitle"><p><strong>{{meta2.name}}</strong></p></div></div>
+          <div class="row"> <div class="col col-50 reps">{{meta2.reps}}x<span style="font-size: small"><br />REPS</span></div>
+                             <div class="col col-50 sets">{{meta2.sets || 1}}<span style="font-size: small"><br />{{meta2.sets > 1 ? "SETS" : "SET"}}</span></div>
+          </div>
+          <div class="row"> <div class="col whitebg"><p *ngIf="meta2.notes" [innerHtml]="meta2.notes"></p><p *ngIf="meta2.time">Time: {{meta2.time}}</p> <p *ngIf="meta2.video"><a style="font-weight: bold"  href="{{meta2.video}}">Video</a></p></div></div>
+
+        </li>
+
+        <li class='event ' *ngIf="pm.meal_number" >
+          <div class="row"> <div class="col wotitle"><p><strong>Meal {{pm.meal_number}}</strong></p></div></div>
+          <div class="row"> <div class="col whitebg"><p >{{pm.meal_details}}</p></div></div>
+
+        </li>
+
+      </ul>
+
+
+  </ion-list>
+</ion-content>
