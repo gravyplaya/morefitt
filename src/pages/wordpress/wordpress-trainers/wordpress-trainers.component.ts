@@ -127,38 +127,27 @@ export class Trainers implements OnInit {
 
 		let query = this.createQuery();
 	  	let loader = this.loadingController.create({
-			content: "Please wait"
+			content: "Loading more trainers..."
 		});
 		let toast = this.toastController.create({
-			message: "There are no more posts.",
+			message: "There are no more trainers.",
             duration: 2000
 		});
 
 		loader.present();
-	    if (this.postType.name == "workout") {
 	    	this.wordpressService.getTrainers(query)
 				.subscribe(result => {
+					
 					infiniteScroll.complete();
 					if(result.length < 1) { 
 						infiniteScroll.enable(false);
 						toast.present();
 					} else {
-						this.posts = this.posts.concat(result);
+						this.trainers.concat(result);
 					}
 					loader.dismiss();
 				});
-	    } 
-		/* this.wordpressService.getWorkouts(query)
-		.subscribe(result => {
-			infiniteScroll.complete();
-			if(result.length < 1) { 
-				infiniteScroll.enable(false);
-				toast.present();
-			} else {
-				this.posts = this.posts.concat(result);
-			}
-			loader.dismiss();
-		});  */
+
 	}
 
 	loadPost(post) {
@@ -198,6 +187,8 @@ export class Trainers implements OnInit {
 	createQuery() {
 	let query = {};
 	query['page'] = this.pageCount;
+	query['per_page'] = 20;
+	query['exclude'] = [2,4];
 	if(this.search) {
 	 	query['search'] = this.search;
 	}

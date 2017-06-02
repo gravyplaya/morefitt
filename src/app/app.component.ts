@@ -10,6 +10,7 @@ import { Deploy } from '@ionic/cloud-angular';
 import { TabsComponent } from '../pages/tabs/tabs-component/tabs.component';
 import { HomeComponent } from '../pages/home/home-component/home.component';
 import { WordpressFavorites } from '../pages/wordpress/wordpress-favorites/wordpress-favorites.component';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 //import { GridComponent } from '../pages/grid/grid-component/grid.component';
 //import { DatetimeComponent } from '../pages/datetime/datetime-component/datetime.component';
@@ -43,8 +44,9 @@ export class MyApp {
 		private statusBar: StatusBar,
 		private splashScreen: SplashScreen,
     //public wc: WooCommerceAPI,
-    	//public deploy: Deploy,
-		private config: Config
+    	public deploy: Deploy,
+		private config: Config,
+		private iap: InAppPurchase
 		) {
 		this.initializeApp();
 
@@ -57,7 +59,9 @@ export class MyApp {
 		    messagingSenderId: "159420957521"
 		});
 
-    	//this.deploy.channel = 'dev';
+
+
+
 
 		Firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
@@ -117,6 +121,40 @@ export class MyApp {
 			// this.platform.setDir('rtl', true);
 			this.statusBar.styleDefault();
 			this.splashScreen.hide();
+
+// if on device then activate the deploy plugin
+			if (this.platform.is('cordova')) {
+					// set the deploy channel
+			    	this.deploy.channel = 'dev';
+			    	// check and remove obsolete deploys from device to save space
+			    	this.deploy.getSnapshots().then((snapshots) => {
+			        	this.deploy.info().then((x) => {
+				          for (let suuid of snapshots) {
+				            if (suuid !== x.deploy_uuid) {
+				              this.deploy.deleteSnapshot(suuid);
+				            }
+				          }
+				        })
+				      });
+			    	// download and extract the latest snapshot
+					this.deploy.check().then((snapshotAvailable: boolean) => {
+					  if (snapshotAvailable) {
+					    this.deploy.download().then(() => {
+						   			this.deploy.extract().then(() => {
+						   				return	this.deploy.load();
+									});
+						});
+					  }
+					});  
+			}
+
+			this.iap.restorePurchases()
+					 .then((res) => {
+					   console.log(res);
+					 })
+					 .catch((err) => {
+					   console.log(err);
+					 });
 		});
 	}
 

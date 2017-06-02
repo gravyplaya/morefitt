@@ -10,51 +10,26 @@
 </ion-header>
 
 <ion-content >
-  <div class="tfcard">
-	    <div class="item item-text-wrap" ><a (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fpaleo-meal-plan%2F')">
-          <img class="slide-image" src="http://www.morefitt.com/wp-content/uploads/2017/01/Raw-meat-sliced-in-cubes-and-ingredients-for-beef-stew-000069761181_Large-e1486161065811.jpg"  />
-          <div class="text-center name">Paleo</div>
-        </a>
-      </div>
-  </div>
-    <div class="tfcard">
-	    <div class="item item-text-wrap" ><a (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fclean-meal-plan%2F')">
-          <img class="slide-image" src="http://www.morefitt.com/wp-content/uploads/2017/01/Grilled-vegetables-000088604683_Double-e1486161753488.jpg"  />
-          <div class="text-center name">Clean Eating</div>
-        </a>
-      </div>
-  </div>
-  <div class="tfcard">
-	    <div class="item item-text-wrap" ><a (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fvegetarian-meal-plan%2F')">
-          <img class="slide-image" src="http://www.morefitt.com/wp-content/uploads/2017/01/Selection-of-super-foods-in-white-bowls-000032857670_Double-e1486160621938.jpg"  />
-          <div class="text-center name">Vegetarian</div>
-        </a>
-      </div>
-  </div>
-    <div class="tfcard">
-	    <div class="item item-text-wrap" ><a (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fvegan-meal-plan%2F')">
-          <img class="slide-image" src="http://www.morefitt.com/wp-content/uploads/2017/01/iStock_71886761_XLARGE-e1486161410525.jpg"  />
-          <div class="text-center name">Vegan</div>
-        </a>
-      </div>
-  </div>
-    <div class="tfcard">
-	    <div class="item item-text-wrap" ><a (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=https%3A%2F%2Fshop.trifectanutrition.com%2Fa-la-carte%2F')">
-          <img class="slide-image" src="http://www.morefitt.com/wp-content/uploads/2017/01/Super-Food-Diet-Selection-000093418851_Double-e1486160600709.jpg"  />
-          <div class="text-center name">A La Carte</div>
-        </a>
-      </div>
-  </div>
-<!-- <img src="http://www.morefitt.com/wp-content/uploads/2017/01/Raw-meat-sliced-in-cubes-and-ingredients-for-beef-stew-000069761181_Large-e1486161065811.jpg">
-<img src="http://www.morefitt.com/wp-content/uploads/2017/01/Grilled-vegetables-000088604683_Double-e1486161753488.jpg">
-<img src="http://www.morefitt.com/wp-content/uploads/2017/01/Selection-of-super-foods-in-white-bowls-000032857670_Double-e1486160621938.jpg">
-<img src="http://www.morefitt.com/wp-content/uploads/2017/01/iStock_71886761_XLARGE-e1486161410525.jpg">
-<img src="http://www.morefitt.com/wp-content/uploads/2017/01/Super-Food-Diet-Selection-000093418851_Double-e1486160600709.jpg">
-  Paleo = http://www.morefitt.com/wp-content/uploads/2017/01/Raw-meat-sliced-in-cubes-and-ingredients-for-beef-stew-000069761181_Large-e1486161065811.jpg
-  Clean eeating = http://www.morefitt.com/wp-content/uploads/2017/01/Grilled-vegetables-000088604683_Double-e1486161753488.jpg
-  Vegetarian = http://www.morefitt.com/wp-content/uploads/2017/01/Selection-of-super-foods-in-white-bowls-000032857670_Double-e1486160621938.jpg
-  Vegan = http://www.morefitt.com/wp-content/uploads/2017/01/iStock_71886761_XLARGE-e1486161410525.jpg
-  A La carte = http://www.morefitt.com/wp-content/uploads/2017/01/Super-Food-Diet-Selection-000093418851_Double-e1486160600709.jpg 
 
-Meals = http://www.morefitt.com/wp-content/uploads/2017/01/Homemade-Grilled-Steak-and-Veggie-Shish-Kebabs-000067930079_Full-e1486161656259.jpg -->
+  <ion-card (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fpaleo-meal-plan%2F')">
+    <img src="http://www.morefitt.com/wp-content/uploads/2017/01/Raw-meat-sliced-in-cubes-and-ingredients-for-beef-stew-000069761181_Large-e1486161065811.jpg" />
+    <div class="card-title">Paleo</div>
+  </ion-card>
+  <ion-card (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fclean-meal-plan%2F')">
+    <img src="http://www.morefitt.com/wp-content/uploads/2017/01/Grilled-vegetables-000088604683_Double-e1486161753488.jpg" />
+    <div class="card-title">Clean Eating</div>
+  </ion-card>
+    <ion-card (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fvegetarian-meal-plan%2F')">
+    <img src="http://www.morefitt.com/wp-content/uploads/2017/01/Selection-of-super-foods-in-white-bowls-000032857670_Double-e1486160621938.jpg" />
+    <div class="card-title">Vegetarian</div>
+  </ion-card>
+    <ion-card (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=http%3A%2F%2Fshop.trifectanutrition.com%2Fshop%2Fvegan-meal-plan%2F')">
+    <img src="http://www.morefitt.com/wp-content/uploads/2017/01/iStock_71886761_XLARGE-e1486161410525.jpg" />
+    <div class="card-title">Vegan</div>
+  </ion-card>
+    <ion-card (click)="linkTo('http://trifectanutrition.evyy.net/c/348233/293336/4609?u=https%3A%2F%2Fshop.trifectanutrition.com%2Fa-la-carte%2F')">
+    <img src="http://www.morefitt.com/wp-content/uploads/2017/01/Super-Food-Diet-Selection-000093418851_Double-e1486160600709.jpg" />
+    <div class="card-title">A La Carte</div>
+  </ion-card>
+
 </ion-content>

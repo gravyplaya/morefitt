@@ -27,7 +27,7 @@ export class MfminComponent {
   public _mfminstore: any;
 
   constructor(public navCtrl: NavController, private loadingController: LoadingController, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http) {
-
+    if (Firebase.auth().currentUser !== null) {
       let usr = Firebase.auth().currentUser.toJSON();
       this.user = usr;
       this._clipsdb = Firebase.database().ref(`clips/${this.user.uid}/`);
@@ -36,6 +36,7 @@ export class MfminComponent {
       this._mfminstore = Firebase.storage().ref(`mfmins/${this.user.uid}/`);
       this.getClips();
       this.getMFMins();
+    } 
   }
 
 
@@ -180,7 +181,7 @@ export class MfminComponent {
                     "background": "00000000",
                     "watermark_url": "http://www.morefitt.com/wp-content/uploads/view_img_whitelogo.png",
                     "watermark_position": "bottom-right",
-                    "watermark_size": "25%",
+                    "watermark_size": "20%",
                     "result": true,
                     "preset": "iphone-high",
                     "rotate": 90

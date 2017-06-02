@@ -189,10 +189,9 @@ export class WordpressPosts implements OnInit {
 	}
 
 	loadPost(post) {
-		console.log(post);
-		//this.navController.push(WordpressPost, {
-		//	post: post
-		//});
+		this.navController.push(WordpressPost, {
+			post: post
+		});
 	}
 
 	favoritePost(post) {

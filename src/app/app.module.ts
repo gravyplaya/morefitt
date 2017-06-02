@@ -24,9 +24,17 @@ import { ChartsModule } from '../pages/charts/charts.module';
 import { PlaceholderModule } from '../pages/placeholder/placeholder.module';
 import { MfminModule } from '../pages/mfmin/mfmin.module';
 import { TrifectaModule } from '../pages/trifecta/trifecta.module';
-
-
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
+//import { Firebase } from '@ionic-native/firebase';
 import { MyApp } from './app.component';
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '5a635efa'
+  }
+};
+
 
 @NgModule({
   declarations: [
@@ -55,12 +63,13 @@ import { MyApp } from './app.component';
     ChartsModule,
     PlaceholderModule,
     MfminModule,
-    TrifectaModule
+    TrifectaModule,
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, InAppPurchase]
 })
 export class AppModule {}

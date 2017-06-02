@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:159420957521:android:5e37f23b316c94e3",
+        "mobilesdk_app_id": "1:159420957521:android:af9c0f1317d788e5",
         "android_client_info": {
-          "package_name": "com.morefitt"
+          "package_name": "com.ath.morefitt"
         }
       },
       "oauth_client": [

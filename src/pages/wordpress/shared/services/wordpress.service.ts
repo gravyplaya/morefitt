@@ -149,11 +149,12 @@ export class WordpressService {
 	  let filtered = []; let filtered2 = []; 
 	  return this.http.get(url)
 	    .map(result => {
-	    	for(let a of result.json()) {
-			        if (a.id !== 2 && a.id !== 4) {
-                        filtered.push(a);
-                    }
-			}
+	    	//for(let a of result.json()) {
+			//        if (a.id !== 2 && a.id !== 4) {
+            //            filtered.push(a);
+            //        }
+		//	}
+			filtered = result.json();
 			//get the avatar url for the trainer and add it to his object
 			filtered.forEach((item, index) => {
 			    this.http.get(`https://www.morefitt.com/wp-content/plugins/indeed-membership-pro/apigate.php?ihch=YokCnaHHHwL8y2K5JqJmgkquIdo8rU6ohq&action=user_get_details&uid=${item.id}`)

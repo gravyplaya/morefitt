@@ -9,7 +9,7 @@
 
 <ion-content>
 <ion-item *ngIf="user"><p>You are logged in as {{user.email}}</p></ion-item>
-  <form (submit)="login()"  *ngIf="!user">
+  <form   *ngIf="!user">
     <ion-list>
         
       <ion-item>
@@ -23,32 +23,14 @@
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'LOGIN' | translate }}</button>
+        <button ion-button color="primary" block (click)="login()">{{ 'LOGIN' | translate }}</button>
       </div>
-
-    </ion-list>
-  </form>
-
-    <form (submit)="register()" *ngIf="!user">
-    <ion-list>
-
-
-      <ion-item>
-        <ion-label fixed>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label fixed>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
-      </ion-item>
-
       <div padding>
-        <button ion-button color="primary" block>{{ 'REGISTER' | translate }}</button>
+        <button ion-button color="primary" block (click)="register()">{{ 'REGISTER' | translate }}</button>
       </div>
-
     </ion-list>
   </form>
+
 
   <form (submit)="logout()" *ngIf="user">
     <ion-list>

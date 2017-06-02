@@ -19,21 +19,21 @@
         <div class="row">
           <div class="col">
             <p class="first-name">{{ post.name }}</p>
-            <p class="last-name">{{ post.slug  }}</p>
+            <!--p class="first-name">{{ post.slug  }}</p-->
             <div class="buttons-row">
-              <a  (click)="setTab(1)"><button [attr.class]="isSet(1) ? 'active' : ''" class="button button-small button-clear">WORKOUTS</button></a>
-              <a  (click)="setTab(2)"><button [attr.class]="isSet(2) ? 'active' : ''" class="button button-small button-clear">NUTRITION</button></a>
-              <a  (click)="setTab(3)"><button [attr.class]="isSet(3) ? 'active' : ''" class="button button-small button-clear">ABOUT</button></a>
+              <a  (click)="setTab(1)"><button [attr.class]="isSet(1) ? 'active' : ''" class="button  button-clear" ion-button round padding>WORKOUTS</button></a>
+              <a  (click)="setTab(2)"><button [attr.class]="isSet(2) ? 'active' : ''" class="button  button-clear" ion-button round padding>NUTRITION</button></a>
+              <a  (click)="setTab(3)"><button [attr.class]="isSet(3) ? 'active' : ''" class="button button-clear" ion-button round padding>ABOUT</button></a>
             </div>
           </div>
-            <button class="button button-small button-clear subscribe next" ui-sref="register({trainer: post.slug })" *ngIf="!user">SUBSCRIBE</button>
-            <button class="button button-small button-clear subscribed" *ngIf="user" >SUBSCRIBED</button>
+            <button class="button button-small button-clear subscribe next" padding (click)="subscribe()" *ngIf="!subd">SUBSCRIBE</button>
+            <button class="button button-small button-clear subscribed" padding *ngIf="subd" >SUBSCRIBED</button>
         </div>
       </div>
       <div class="" *ngIf="isSet(1)">
         <ion-card *ngFor="let workout of workouts">
           <ion-card-content>
-            <a (click)="loadPost(workout)">{{workout.title}}</a>
+            <a (click)="loadPost(workout)"><strong [innerHtml]="workout.title"></strong></a>
             <p [innerHtml]="workout.excerpt"></p>
           </ion-card-content>
         </ion-card>

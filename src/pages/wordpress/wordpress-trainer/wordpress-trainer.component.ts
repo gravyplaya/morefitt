@@ -6,10 +6,12 @@ import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import { WordpressService } from '../shared/services/wordpress.service';
 import { WordpressPost } from '../wordpress-post/wordpress-post.component';
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
+
 
 @Component({
 	templateUrl: './wordpress-trainer.html',
-	providers: [ WordpressService ]
+	providers: [ WordpressService, InAppPurchase ]
 })
 export class Trainer {
 	post: any;
@@ -21,6 +23,7 @@ export class Trainer {
     workouts: any;
     nutritions: any;
     trainer: any;
+    subd: boolean = false;
 
 	constructor(
 			private navParams: NavParams,
@@ -30,7 +33,8 @@ export class Trainer {
 			private iab: InAppBrowser,
 			private socialSharing: SocialSharing,
 			private http: Http,
-			private storage: Storage
+			private storage: Storage,
+			private iap: InAppPurchase
 		) {
 		if (navParams.get('post')) {
 			this.post = navParams.get('post');
@@ -117,6 +121,29 @@ export class Trainer {
 			loader.dismiss();
 		});
 	}
+
+	subscribe() {
+			this.iap.getProducts(['AllAccess'])
+					 .then((products) => {
+					   console.log(products);
+					    //  [{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
+					 })
+					 .catch((err) => {
+					   console.log(err);
+					 });
+			this.iap
+			  .subscribe('AllAccess')
+			  .then(data => this.iap.consume(data.productType, data.receipt, data.signature))
+			  .then(() => console.log('product was successfully consumed!'))
+			  .catch( err=> console.log(err))
+
+	}
+
+
+
+
+
+
 	previewPost() {
 		const browser = this.iab.create(this.post.link, '_blank');
 		browser.show();

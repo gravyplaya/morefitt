@@ -1,3 +1,65 @@
+  ion-card {
+    position: relative;
+    text-align: center;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+
+  .card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+  }
+
+  .card-subtitle, .card-subtitle p {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+  }
+
+
+
+
+.slide-image {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  z-index: -1;
+  top: -150px;
+  left: 0;
+  position: absolute;
+
+}
+.tfcard {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+.tfcard .item{
+  height: 250px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tfcard .name {
+  color:#fff;
+  text-shadow: 1px 1px 1px #000000;
+  font-size: 2em;
+  line-height: 1.1;
+}
+.tfcard a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .wotitle {
   font-size: 30px;
   font-weight: 700;

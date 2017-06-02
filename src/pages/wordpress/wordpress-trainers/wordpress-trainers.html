@@ -11,15 +11,11 @@
 
 <!-- TRAINERS TAB:  just show the trainers list -->
 
-	<ion-card *ngFor="let post of trainers">
-        <ion-item text-wrap (click)="loadPost(post)">
-        	<ion-avatar item-left>
-		        <img [src]="post.avatar">
-		    </ion-avatar>
-            <h1 text-capitalize>{{post.name}}</h1>
-            <!-- <h4 class="date">{{post.date | date: 'fullDate'}}</h4> -->
-        </ion-item>
-	</ion-card>
+  <ion-card *ngFor="let post of trainers" (click)="loadPost(post)">
+    <img [src]="post.avatar" />
+    <div class="card-title">{{post.name}}</div>
+  </ion-card>
+
 
 	<ion-infinite-scroll (ionInfinite)="loadMore($event)">
 	   <ion-infinite-scroll-content></ion-infinite-scroll-content>

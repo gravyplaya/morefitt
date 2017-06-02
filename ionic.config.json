@@ -1,6 +1,5 @@
 {
   "name": "MoreFitt",
   "app_id": "5a635efa",
-  "v2": true,
-  "typescript": true
+  "type": "ionic-angular"
 }

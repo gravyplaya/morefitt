@@ -1,3 +1,30 @@
+  ion-card {
+    position: relative;
+    text-align: center;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+
+  .card-title {
+    position: absolute;
+    top: 36%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+  }
+
+  .card-subtitle, .card-subtitle p {
+    font-size: 1.0em;
+    position: absolute;
+    top: 52%;
+    width: 100%;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+  }
+
+
 .wotitle {
   font-size: 30px;
   font-weight: 700;

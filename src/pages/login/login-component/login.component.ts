@@ -17,7 +17,7 @@ export class LoginComponent {
   
   constructor(
     private navController: NavController,
-    private toastController: ToastController,
+    public toastController: ToastController,
     public storage: Storage) {
 
       this.getUser();
@@ -25,40 +25,34 @@ export class LoginComponent {
   }
 
   login() {
+    let self = this;
         let message = 'Succesful Login';
-    let toast = this.toastController.create({
+
+      let toast = this.toastController.create({
         message: message,
         duration: 3000,
         position: 'bottom'
       });
 
 
-   /* Firebase.auth().currentUser.link(credential).then(function(user) {
-      console.log("Anonymous account successfully upgraded", user);
-      toast.present();
-    }, function(error) {
-      console.log("Error upgrading anonymous account", error);
-    }); */
-
-
     Firebase.auth().signInWithEmailAndPassword(this.account.username, this.account.password).catch(function(error) {
       // Handle Errors here.
       console.log("ERROR: "+error);
+     let toast2 = self.toastController.create({
+        message: ""+error,
+        duration: 4000,
+        position: 'bottom'
+      });
+      toast2.present();
     });
-   /* var credential = firebase.auth.EmailAuthProvider.credential(this.account.username, this.account.password);
-    this.fb.auth.currentUser.link(credential).then(function(user) {
-      console.log("Anonymous account successfully upgraded", user);
-      toast.present();
-    }, function(error) {
-      console.log("Error upgrading anonymous account", error);
-    });
-    */
+
     this.getUser();
   this.navController.setRoot(this.navController.getActive().component);
     
   }
 
   register() {
+    let self = this;
         let message = 'Adding you...';
       let toast = this.toastController.create({
         message: message,
@@ -69,8 +63,14 @@ export class LoginComponent {
     Firebase.auth().createUserWithEmailAndPassword(this.account.username, this.account.password).catch(function(error) {
       // Handle Errors here.
       console.log("ERROR: "+error);
+      let toast3 = self.toastController.create({
+        message: ""+error,
+        duration: 4000,
+        position: 'bottom'
+      });
+      toast3.present();
     });
-    
+    this.navController.setRoot(this.navController.getActive().component);
   }
 
   logout() {        
