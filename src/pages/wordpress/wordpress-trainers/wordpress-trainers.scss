@@ -5,6 +5,10 @@
     width: 100% !important;
   }
 
+  .trainerscard {
+   width: calc(100% - 20px);
+  }
+
   .card-title {
     position: absolute;
     top: 36%;

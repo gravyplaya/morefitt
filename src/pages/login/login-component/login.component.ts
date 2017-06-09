@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-import  Firebase from 'firebase';
+//import  Firebase from 'firebase';
+//import * as firebase from 'firebase';
 import { Storage } from '@ionic/storage';
-
+declare var firebase:any;
 
 @Component({
   templateUrl: './login.html'
@@ -26,16 +27,8 @@ export class LoginComponent {
 
   login() {
     let self = this;
-        let message = 'Succesful Login';
 
-      let toast = this.toastController.create({
-        message: message,
-        duration: 3000,
-        position: 'bottom'
-      });
-
-
-    Firebase.auth().signInWithEmailAndPassword(this.account.username, this.account.password).catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(this.account.username, this.account.password).catch(function(error) {
       // Handle Errors here.
       console.log("ERROR: "+error);
      let toast2 = self.toastController.create({
@@ -60,7 +53,7 @@ export class LoginComponent {
         position: 'bottom'
       });
     toast.present();
-    Firebase.auth().createUserWithEmailAndPassword(this.account.username, this.account.password).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(this.account.username, this.account.password).catch(function(error) {
       // Handle Errors here.
       console.log("ERROR: "+error);
       let toast3 = self.toastController.create({
@@ -82,7 +75,7 @@ export class LoginComponent {
       });
     
     this.storage.remove('user');
-    Firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(function() {
       console.log('jus logged out');
     }).catch(function(error) {
       console.log(error);
@@ -97,7 +90,7 @@ export class LoginComponent {
         .then(data => {
             if(data) {
                 this.user = JSON.parse(data);
-                
+                console.log(this.user);
             }
         })
         .catch(err => console.log(err));

@@ -18,7 +18,7 @@ export class Trainer {
 	postMetas: any;
 	user: any;
     authorData: any;
-    tab: number = 1;
+    tab: string = 'workouts';
     comments = [];
     workouts: any;
     nutritions: any;
@@ -65,14 +65,6 @@ export class Trainer {
         .catch(err => console.log(err));
         
     }
-
-	setTab(newTab){
-        this.tab = newTab;
-    };
-
-    isSet(tabNum) {
-        return this.tab === tabNum;
-    };
 
 	getPost(id) {
 		let loader = this.loadingController.create({
@@ -139,10 +131,10 @@ export class Trainer {
 
 	}
 
-
-
-
-
+  	linkTo(link) {
+		const browser = this.iab.create(link, '_blank');
+		browser.show();
+	}
 
 	previewPost() {
 		const browser = this.iab.create(this.post.link, '_blank');

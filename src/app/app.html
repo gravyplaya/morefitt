@@ -8,10 +8,37 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item menuClose ion-item *ngFor="let page of pages" (click)="openPage(page)">
+      
+        <ion-item tappable menuClose ion-item (click)="openLink('home')">
+        <ion-icon name="home" item-left></ion-icon>
+          Home
+        </ion-item>
+        <ion-item tappable menuClose ion-item (click)="openLink('favorites')">
+        <ion-icon name="heart" item-left></ion-icon>
+          Favorites
+        </ion-item>
+        <ion-item tappable menuClose ion-item (click)="openLink('settings')">
+        <ion-icon name="settings" item-left></ion-icon>
+          Settings
+        </ion-item>
+        <ion-item tappable menuClose ion-item (click)="openLink('contact')">
+        <ion-icon name="mail" item-left></ion-icon>
+          Contact
+        </ion-item>
+        <ion-item tappable menuClose ion-item *ngIf="!user" (click)="openLink('login')">
+        <ion-icon name="log-in" item-left></ion-icon>
+          Login
+        </ion-item>
+        <ion-item tappable menuClose ion-item *ngIf="user" (click)="openLink('login')">
+        <ion-icon name="log-out" item-left></ion-icon>
+          Logout
+        </ion-item>        
+    <!--
+        <ion-item menuClose tappable ion-item *ngFor="let page of pages" (click)="openPage(page)">
         <ion-icon [name]="page.icon" item-left></ion-icon>
         {{page.title }}
         </ion-item>
+      -->
       </ion-list>
     </ion-content>
   </ion-menu>

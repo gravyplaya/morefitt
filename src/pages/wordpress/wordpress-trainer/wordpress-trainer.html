@@ -4,64 +4,65 @@
 			<ion-icon name="menu"></ion-icon>
 		</button>
 		<ion-title *ngIf="post">{{post.name}}</ion-title>
-		<!--ion-buttons end>
-	      <button (click)="sharePost()" ion-button icon-only>
-	        <ion-icon name="share"></ion-icon>
-	      </button>
-	    </ion-buttons-->
 	</ion-navbar>
 </ion-header>
 
 <ion-content class="post" [ngStyle]="{'background-image': 'url('+post.avatar+')', 'background-size':'cover'}">
-
-  <ion-list *ngIf="post">
-        <div class="view-mask2">
-        <div class="row">
-          <div class="col">
-            <p class="first-name">{{ post.name }}</p>
-            <!--p class="first-name">{{ post.slug  }}</p-->
-            <div class="buttons-row">
-              <a  (click)="setTab(1)"><button [attr.class]="isSet(1) ? 'active' : ''" class="button  button-clear" ion-button round padding>WORKOUTS</button></a>
-              <a  (click)="setTab(2)"><button [attr.class]="isSet(2) ? 'active' : ''" class="button  button-clear" ion-button round padding>NUTRITION</button></a>
-              <a  (click)="setTab(3)"><button [attr.class]="isSet(3) ? 'active' : ''" class="button button-clear" ion-button round padding>ABOUT</button></a>
-            </div>
-          </div>
-            <button class="button button-small button-clear subscribe next" padding (click)="subscribe()" *ngIf="!subd">SUBSCRIBE</button>
-            <button class="button button-small button-clear subscribed" padding *ngIf="subd" >SUBSCRIBED</button>
-        </div>
-      </div>
-      <div class="" *ngIf="isSet(1)">
-        <ion-card *ngFor="let workout of workouts">
+<div padding>
+          <button class="button button-small button-clear subscribed next" ion-button round full padding (click)="subscribe()" *ngIf="!subd"><strong>SUBSCRIBE</strong></button>
+        <button class="button button-small button-clear subscribed" ion-button full round padding *ngIf="subd" >SUBSCRIBED</button>
+</div>
+<div >
+    <ion-segment [(ngModel)]="tab">
+      <ion-segment-button value="workouts" >
+        WORKOUTS
+      </ion-segment-button>
+      <ion-segment-button value="nutrition">
+        NUTRITION
+      </ion-segment-button>
+      <ion-segment-button value="about" >
+        ABOUT
+      </ion-segment-button>
+    </ion-segment>
+</div>
+<div [ngSwitch]="tab">
+  <ion-list *ngSwitchCase="'workouts'">
+    <ion-item>
+        <ion-card class="trainercard" *ngFor="let workout of workouts">
           <ion-card-content>
             <a (click)="loadPost(workout)"><strong [innerHtml]="workout.title"></strong></a>
-            <p [innerHtml]="workout.excerpt"></p>
+            <p [innerHtml]="workout.excerpt" text-wrap></p>
           </ion-card-content>
         </ion-card>
-      </div>
+    </ion-item>
+  </ion-list>
 
-      <div class="" *ngIf="isSet(2)">
+  <ion-list *ngSwitchCase="'nutrition'">
+    <ion-item>
           <div class="row">
-            <div class="col" ><a href="https://www.morefitt.com/mealdelivery/"><img src="/assets/img/organic-meal-delivery-sm.png" style="width:100%"></a></div>
+            <div class="col" ><a (click)="linkTo('https://www.morefitt.com/mealdelivery/')"><img src="https://www.morefitt.com/wp-content/uploads/organic-meal-delivery-sm.png" style="width:100%"></a></div>
           </div>
         <ion-card *ngFor="let nutrition of nutritions">
           <ion-card-content>
             <a (click)="loadPost(nutrition)">{{nutrition.title}}</a>
-            <p [innerHtml]="nutrition.excerpt"></p>
+            <p [innerHtml]="nutrition.excerpt" text-wrap></p>
           </ion-card-content>
         </ion-card>
-
-      </div>
-
-      <div class="" *ngIf="isSet(3)">
-        <div class="card" >
-          <div class="item item-text-wrap">
+    </ion-item>
+  </ion-list>
+  <ion-list *ngSwitchCase="'about'">
+    <ion-item>
+        <ion-card>
+          <ion-card-content class="item item-text-wrap" text-left>
             <p>Height: </p>
             <p>Weight: </p>
             <p>Fun Fact: </p>
-          </div>
-        </div>
-      </div>
+          </ion-card-content>
+        </ion-card>
+    </ion-item>
+  </ion-list>  
+</div>
 
-</ion-list>
+  
 </ion-content>
 

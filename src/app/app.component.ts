@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';;
 import { Storage } from '@ionic/storage';
@@ -8,10 +8,8 @@ import { Config } from './app.config';
 //import  WooCommerceAPI  from 'woocommerce-api';
 import { Deploy } from '@ionic/cloud-angular';
 import { TabsComponent } from '../pages/tabs/tabs-component/tabs.component';
-import { HomeComponent } from '../pages/home/home-component/home.component';
+//import { HomeComponent } from '../pages/home/home-component/home.component';
 import { WordpressFavorites } from '../pages/wordpress/wordpress-favorites/wordpress-favorites.component';
-import { InAppPurchase } from '@ionic-native/in-app-purchase';
-
 //import { GridComponent } from '../pages/grid/grid-component/grid.component';
 //import { DatetimeComponent } from '../pages/datetime/datetime-component/datetime.component';
 //import { RangesComponent } from '../pages/ranges/ranges-component/ranges.component';
@@ -19,15 +17,15 @@ import { SettingsComponent } from '../pages/settings/settings-component/settings
 //import { ActionSheetComponent } from '../pages/action-sheet/action-sheet-component/action-sheet.component';
 //import { PlaceholderComponent } from '../pages/placeholder/placeholder-component/placeholder.component';
 import { FacebookConnectComponent } from '../pages/facebook-connect/facebook-connect-component/facebook-connect.component';
-import { LoginComponent } from '../pages/login/login-component/login.component';
+//import { LoginComponent } from '../pages/login/login-component/login.component';
 import { WordpressMenus } from '../pages/wordpress/wordpress-menus/wordpress-menus.component';
 import { ContactComponent } from '../pages/contact/contact-component/contact.component';
-
-import  Firebase from 'firebase';
+import { FirebaseHomeComponent } from '../pages/firebase/firebase-home/firebase-home.component';
 
 @Component({
 	templateUrl: './app.html'
 })
+
 export class MyApp {
 	@ViewChild(Nav) nav: Nav;
 	fb : any;
@@ -36,6 +34,8 @@ export class MyApp {
 	pages: Array<{title: string, component: any, icon: string, params?: any}>;
 	wordpressMenusNavigation: boolean = false;
 	products = "";
+	user: any;
+
 
 	constructor(
 		private platform: Platform,
@@ -46,24 +46,25 @@ export class MyApp {
     //public wc: WooCommerceAPI,
     	public deploy: Deploy,
 		private config: Config,
-		private iap: InAppPurchase
+		private loadingController: LoadingController
+		
 		) {
 		this.initializeApp();
 
-		Firebase.initializeApp({
+	/*	Firebase.initializeApp({
 		    apiKey: "AIzaSyAnPe6oEIsF2ohe6zmDdMz6_7C_9yMyOBc",
 		    authDomain: "morefitt-44f0a.firebaseapp.com",
 		    databaseURL: "https://morefitt-44f0a.firebaseio.com",
 		    projectId: "morefitt-44f0a",
 		    storageBucket: "morefitt-44f0a.appspot.com",
 		    messagingSenderId: "159420957521"
-		});
+		}); */
 
 
 
 
 
-		Firebase.auth().onAuthStateChanged(function(user) {
+	/*	Firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
 				// User is signed in.
 				var uid = user.uid;
@@ -73,7 +74,7 @@ export class MyApp {
 			} else {
 				console.log('logged out')
 			}
-			});
+			}); */
 	
 		this.translate.setDefaultLang('en');
 		storage.get('language').then((value) => {
@@ -97,8 +98,8 @@ export class MyApp {
 	      //{ title: 'RANGES', component: RangesComponent, icon: 'sunny'},
 	      //{ title: 'ACTION_SHEET', component: ActionSheetComponent, icon: 'create'},
 	      //{ title: 'Placeholder', component: PlaceholderComponent, icon: 'logo-buffer' },
-	      { title: 'Facebook Connect', component: FacebookConnectComponent, icon: 'logo-facebook' },
-	      { title: 'Login', component: LoginComponent, icon: 'log-in' }
+	      { title: 'Facebook Connect', component: FacebookConnectComponent, icon: 'logo-facebook' }
+	      //{ title: 'Login', component: LoginComponent, icon: 'log-in' }
 		];
 		this.wordpressMenusNavigation = config.wordpressMenusNavigation;
 
@@ -116,16 +117,21 @@ export class MyApp {
 	}
 
 	initializeApp() {
+		let loader = this.loadingController.create({
+          content: `Reloading...`
+        });
+            
+		
 		this.platform.ready().then(() => {
 			// Enable RTL Support
 			// this.platform.setDir('rtl', true);
 			this.statusBar.styleDefault();
 			this.splashScreen.hide();
-
+			this.isLoggedIn();
 // if on device then activate the deploy plugin
 			if (this.platform.is('cordova')) {
 					// set the deploy channel
-			    	this.deploy.channel = 'dev';
+			    	//this.deploy.channel = 'dev';
 			    	// check and remove obsolete deploys from device to save space
 			    	this.deploy.getSnapshots().then((snapshots) => {
 			        	this.deploy.info().then((x) => {
@@ -140,6 +146,7 @@ export class MyApp {
 					this.deploy.check().then((snapshotAvailable: boolean) => {
 					  if (snapshotAvailable) {
 					    this.deploy.download().then(() => {
+					    	loader.present();
 						   			this.deploy.extract().then(() => {
 						   				return	this.deploy.load();
 									});
@@ -148,17 +155,60 @@ export class MyApp {
 					});  
 			}
 
-			this.iap.restorePurchases()
-					 .then((res) => {
-					   console.log(res);
-					 })
-					 .catch((err) => {
-					   console.log(err);
-					 });
+
 		});
 	}
+    isLoggedIn() {
+        this.storage.get('user')
+        .then(data => {
+            if(data) {
+                this.user = JSON.parse(data);
+            } else {
+                 this.storage.get('facebook.user')
+                      .then(data2 => {
+                          if(data2) {
+                              this.user = JSON.parse(data2);
+                          }
+                      })
+                      .catch(err => console.log(err));
+            }
+        })
+        .catch(err => console.log(err));
+
+
+    }
 
 	openPage(page) {
 		this.nav.setRoot(page.component, page.params);
+	}
+	openLink(page) {
+		switch(page) { 
+		   case "login": { 
+		      this.nav.setRoot(FirebaseHomeComponent);
+		      break; 
+		   } 
+		   case "home": { 
+		      this.nav.setRoot(TabsComponent);
+		      break; 
+		   } 
+		   case "contact": {
+		      this.nav.setRoot(ContactComponent);
+		      break;    
+		   } 
+		   case "settings": { 
+		      this.nav.setRoot(SettingsComponent);
+		      break; 
+		   }
+		   case "favorites": { 
+		      this.nav.setRoot(WordpressFavorites);
+		      break; 
+		   }   
+		   default: { 
+		      this.nav.setRoot(TabsComponent);
+		      break;              
+		   } 
+		}
+
+		
 	}
 }

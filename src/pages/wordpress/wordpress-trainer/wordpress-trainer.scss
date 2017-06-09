@@ -1,3 +1,17 @@
+
+  .trainercard {
+    width: calc(100% - 20px) !important;
+    margin: 10px !important;
+  }
+
+  .card-content, .card-md {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+.post .item {
+  background: transparent !important;
+}
+
 .view-mask {
   width: 100%;
   height: 130px;
@@ -18,8 +32,8 @@
 .view-mask p.first-name, .view-mask2 p.first-name{
   font-size:25px;
   color: #ffffff;
-  font-weight: 400;
-  padding-left: 15px;
+  font-weight: 700;
+  padding-left: 8px;
   text-transform: uppercase;
   margin-top: 6px;
 }
@@ -53,21 +67,26 @@
   font-weight: bold;
 }
 
-.view-mask2 button {
+.view-mask2 button, .segment-button {
   background-color: rgba(229, 229, 229, 0.3) !important;
   color: #fff !important;
   font-weight: bold;
   border-radius: 6px;
   font-size: 16px;
+  border-color: transparent !important;
 }
+
 
 .view-mask h1, .view-mask h2 {
   text-transform: uppercase;
 }
 
-.view-mask2 button.active {
+.view-mask2 button.active, .segment-button.segment-activated {
   background-color: #E80220 !important;
+    color: #fff !important;
+  font-weight: bold;
   opacity: 1;
+  border-color: transparent;
 }
 
 .buttons-row {
@@ -81,8 +100,6 @@
 
 button.subscribe {
   background-color: #fd203d !important;
-  position: absolute;
-  right: 10px;
 }
 button.subscribed {
   background-color: #20E857 !important;

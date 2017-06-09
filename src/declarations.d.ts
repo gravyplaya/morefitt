@@ -13,3 +13,4 @@
 */
 declare module '*';
 //declare var WooCommerceAPI: any;
+

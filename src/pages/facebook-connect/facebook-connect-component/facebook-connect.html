@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <ion-title>Facebook Login</ion-title>
+      <ion-title>Login</ion-title>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -29,4 +29,23 @@
       {{ 'LOGOUT' | translate }}
     </button>
   </div>
+    <form   *ngIf="!user">
+    <ion-list>
+        <ion-item text-center><h2>Login with Email</h2></ion-item>
+      <ion-item>
+        <ion-label fixed>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+      </ion-item>
+
+      <div padding text-center>
+        <button ion-button color="primary"  (click)="loginEmail()">{{ 'LOGIN' | translate }}</button>
+        <button ion-button color="primary"  (click)="register()">{{ 'REGISTER' | translate }}</button>
+      </div>
+    </ion-list>
+  </form>
 </ion-content>

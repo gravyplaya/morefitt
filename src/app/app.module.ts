@@ -26,15 +26,15 @@ import { MfminModule } from '../pages/mfmin/mfmin.module';
 import { TrifectaModule } from '../pages/trifecta/trifecta.module';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
-//import { Firebase } from '@ionic-native/firebase';
+//import { AngularFireModule } from 'angularfire2';
 import { MyApp } from './app.component';
+import { FirebaseModule } from '../pages/firebase/firebase.module';
 
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': '5a635efa'
   }
 };
-
 
 @NgModule({
   declarations: [
@@ -64,7 +64,8 @@ const cloudSettings: CloudSettings = {
     PlaceholderModule,
     MfminModule,
     TrifectaModule,
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    FirebaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

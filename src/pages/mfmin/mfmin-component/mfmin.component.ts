@@ -1,12 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Http, ResponseContentType } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs/Rx';
-import  Firebase from 'firebase';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+//import  Firebase from 'firebase';
+import * as Firebase from 'firebase';
+import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+//import { FacebookConnectComponent } from '../../facebook-connect/facebook-connect-component/facebook-connect.component';
+import { FirebaseHomeComponent } from '../../firebase/firebase-home/firebase-home.component';
 
 @Component({
   selector: 'page-placeholder',
@@ -26,18 +29,43 @@ export class MfminComponent {
   public _mfmindb: any;
   public _mfminstore: any;
 
-  constructor(public navCtrl: NavController, private loadingController: LoadingController, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http) {
-    if (Firebase.auth().currentUser !== null) {
-      let usr = Firebase.auth().currentUser.toJSON();
-      this.user = usr;
-      this._clipsdb = Firebase.database().ref(`clips/${this.user.uid}/`);
-      this._clipsstore = Firebase.storage().ref(`clips/${this.user.uid}/`);
-      this._mfmindb = Firebase.database().ref(`mfmins/${this.user.uid}/`);
-      this._mfminstore = Firebase.storage().ref(`mfmins/${this.user.uid}/`);
-      this.getClips();
-      this.getMFMins();
-    } 
+  constructor(public navCtrl: NavController, private loadingController: LoadingController, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http,  public alertCtrl: AlertController) {
+    
+    this.isLoggedIn();
+    
   }
+
+
+    isLoggedIn() {
+        this.storage.get('user')
+        .then(data => {
+            if(data) {
+                this.user = JSON.parse(data);
+                this._clipsdb = Firebase.database().ref(`clips/${this.user.uid}/`);
+                this._clipsstore = Firebase.storage().ref(`clips/${this.user.uid}/`);
+                this._mfmindb = Firebase.database().ref(`mfmins/${this.user.uid}/`);
+                this._mfminstore = Firebase.storage().ref(`mfmins/${this.user.uid}/`);
+                this.getClips();
+                this.getMFMins();
+            } else {
+                 this.storage.get('facebook.user')
+                      .then(data2 => {
+                          if(data2) {
+                              this.user = JSON.parse(data2);
+                              this._clipsdb = Firebase.database().ref(`clips/${this.user.id}/`);
+                              this._clipsstore = Firebase.storage().ref(`clips/${this.user.id}/`);
+                              this._mfmindb = Firebase.database().ref(`mfmins/${this.user.id}/`);
+                              this._mfminstore = Firebase.storage().ref(`mfmins/${this.user.id}/`);
+                              this.getClips();
+                              this.getMFMins();
+                          }
+                      })
+                      .catch(err => console.log(err));
+            }
+        })
+        .catch(err => console.log(err));
+        console.log(this.user);
+    }
 
 
   startrecording() {
@@ -46,7 +74,6 @@ export class MfminComponent {
     this.mediaCapture.captureVideo(options)
       .then(
         (data: MediaFile[]) => {
-          console.log(data);
           
             this.file.readAsArrayBuffer(this.file.tempDirectory, data[0].name)
               .then(result => {
@@ -113,30 +140,65 @@ export class MfminComponent {
       var filename = decodeURIComponent(min);
        filename = filename.substring(filename.lastIndexOf('/')+1);
        filename = filename.split("?")[0];
-       //remove reference from the db
-      this._clipsdb.child(id).remove().then((f) => {
-        //remove file from storage
-                   fileRef.delete().then((f) => {   
-                  }).catch(err => console.log(err));     
-        }).catch(err => console.log(err)); 
+           let confirm = this.alertCtrl.create({
+              title: 'Delete this clip?',
+              message: 'Do you want to delete this clip? It will be gone forever.',
+              buttons: [
+                {
+                  text: 'No',
+                  handler: () => {
+                    //console.log('Disagree clicked');
+                  }
+                },
+                {
+                  text: 'Yes',
+                  handler: () => {
+                           //remove reference from the db
+                      this._clipsdb.child(id).remove().then((f) => {
+                        //remove file from storage
+                                   fileRef.delete().then((f) => {   
+                                  }).catch(err => console.log(err));     
+                        }).catch(err => console.log(err));
+                  }
+                }
+              ]
+            });
+          confirm.present();
+ 
   }
   delMFmin(min, id) {
       var fileRef = Firebase.storage().refFromURL(min);
       var filename = decodeURIComponent(min);
        filename = filename.substring(filename.lastIndexOf('/')+1);
        filename = filename.split("?")[0];
-       //remove reference from the db
-      this._mfmindb.child(id).remove().then((f) => {
-        //remove file from storage
-                   fileRef.delete().then((f) => {       
-                  }).catch(err => console.log(err));     
-        }).catch(err => console.log(err)); 
+           let confirm = this.alertCtrl.create({
+              title: 'Delete this transformation?',
+              message: 'Do you want to delete this transformation? It will be gone forever.',
+              buttons: [
+                {
+                  text: 'No',
+                  handler: () => {
+                    //console.log('Disagree clicked');
+                  }
+                },
+                {
+                  text: 'Yes',
+                  handler: () => {
+                     //remove reference from the db
+                    this._mfmindb.child(id).remove().then((f) => {
+                      //remove file from storage
+                                 fileRef.delete().then((f) => {       
+                                }).catch(err => console.log(err));     
+                      }).catch(err => console.log(err)); 
+                  }
+                }
+              ]
+            });
+          confirm.present();
   }
   makevideo() {
     let self = this;
-    //let video = this.myVideo.nativeElement;
         let urls = "";
-        let dlurl = "";
         let loader = this.loadingController.create({
           spinner: 'dots',
           content: `Please wait..<br />May take up to 10 seconds.`
@@ -171,19 +233,19 @@ export class MfminComponent {
                     },
                     "robot": "/video/concat",
                     "ffmpeg_stack": "v2.2.3",
-                    "preset": "iphone-high"
+                    "preset": "ipad"
                 },
                  "wmark": {
                     "robot": "/video/encode",
                     "use": "concat",
-                    "width": 360,
-                    "height": 480,
+                    "width": 768,
+                    "height": 1024,
                     "background": "00000000",
                     "watermark_url": "http://www.morefitt.com/wp-content/uploads/view_img_whitelogo.png",
                     "watermark_position": "bottom-right",
                     "watermark_size": "20%",
                     "result": true,
-                    "preset": "iphone-high",
+                    "preset": "ipad",
                     "rotate": 90
                 }, 
             }
@@ -204,13 +266,13 @@ export class MfminComponent {
                               .map(res => res.blob())
                              .subscribe (data2 => {
                                    var Blobb = new Blob([data2], { type: "video/mp4" });
-                                   var ref = this._mfminstore.child(filename).put(Blobb).then(function(snapshot) {
+                                   this._mfminstore.child(filename).put(Blobb).then(function(snapshot) {
                                          var dlurl = snapshot.downloadURL;
                                           let x = new Date();
                                           let now = x.toLocaleDateString('en-US'); 
                                          console.log(dlurl);
-                                               loader.dismiss();
-                                          self._mfmindb.push({date: now, url: dlurl});
+                                         self._mfmindb.push({date: now, url: dlurl});
+                                         loader.dismiss();
                                     });
                                 }, error => {
                                   loader.dismiss();
@@ -225,8 +287,11 @@ export class MfminComponent {
                  });
 
     }); 
-
+    
   }
 
+  login(post) {
+    this.navCtrl.push(FirebaseHomeComponent);
+  }
 
 }

@@ -146,7 +146,7 @@ export class WordpressService {
 	public getTrainers(query) {
 	  query = this.transformRequest(query);
 	  let url = this.config.wordpressApiUrl + `/wp/v2/users?${query}&_embed`;
-	  let filtered = []; let filtered2 = []; 
+	  let filtered = []; 
 	  return this.http.get(url)
 	    .map(result => {
 	    	//for(let a of result.json()) {

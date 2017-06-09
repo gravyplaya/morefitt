@@ -9,16 +9,24 @@
 
 <ion-content class="grid-basic-page">
   <ion-list>
-    <ion-list-header>
+    <!--ion-list-header>
     {{'LANGUAGE' | translate}}
     </ion-list-header>
     <ion-item>
     <ion-label>{{'LANGUAGE' | translate}}</ion-label>
     <ion-select [(ngModel)]="language" (ionChange)=selectLanguage()>
       <ion-option value="en">{{'ENGLISH' | translate}}</ion-option>
-      <!--ion-option value="de">{{'GERMAN' | translate}}</ion-option>
-      <ion-option value="fr">{{'FRENCH' | translate}}</ion-option-->
+      <ion-option value="de">{{'GERMAN' | translate}}</ion-option>
+      <ion-option value="fr">{{'FRENCH' | translate}}</ion-option>
     </ion-select>
+    </ion-item-->
+    <ion-list-header>
+    Subscription
+    </ion-list-header>
+    <ion-item>
+    <p text-wrap>Click below to restore your subscription from the App Store. For Example: if you get a new device and you want to move your subscription to that device without re-subscribing. </p>
+    <button ion-button  (click)=restorePurchases()>Restore</button>
     </ion-item>
+
   </ion-list>
 </ion-content>

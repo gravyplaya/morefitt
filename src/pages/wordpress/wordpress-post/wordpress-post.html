@@ -33,7 +33,7 @@
           <div class="row"> <div class="col col-50 reps">{{meta2.reps}}x<span style="font-size: small"><br />REPS</span></div>
                              <div class="col col-50 sets">{{meta2.sets || 1}}<span style="font-size: small"><br />{{meta2.sets > 1 ? "SETS" : "SET"}}</span></div>
           </div>
-          <div class="row"> <div class="col whitebg"><p *ngIf="meta2.notes" [innerHtml]="meta2.notes"></p><p *ngIf="meta2.time">Time: {{meta2.time}}</p> <p *ngIf="meta2.video"><a style="font-weight: bold"  href="{{meta2.video}}">Video</a></p></div></div>
+          <div class="row"> <div class="col whitebg"><p *ngIf="meta2.notes" [innerHtml]="meta2.notes"></p><p *ngIf="meta2.time">Time: {{meta2.time}}</p> <p *ngIf="meta2.video"><video src="{{meta2.video}}"  type="video/mp4" width="150" height="150"></video></p></div></div>
 
         </li>
 
