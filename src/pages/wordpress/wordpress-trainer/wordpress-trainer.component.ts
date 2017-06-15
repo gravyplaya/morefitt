@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, LoadingController, NavController } from 'ionic-angular';
+import { NavParams, LoadingController, NavController, ModalController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Http } from '@angular/http';
@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import { WordpressService } from '../shared/services/wordpress.service';
 import { WordpressPost } from '../wordpress-post/wordpress-post.component';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
+import { SubscribeComponent } from '../../subscribe/subscribe-component/subscribe.component';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class Trainer {
 			private wordpressService: WordpressService,
 			private loadingController: LoadingController,
 			private navController: NavController,
+			private modalController: ModalController,
 			private iab: InAppBrowser,
 			private socialSharing: SocialSharing,
 			private http: Http,
@@ -115,7 +117,10 @@ export class Trainer {
 	}
 
 	subscribe() {
-			this.iap.getProducts(['AllAccess'])
+
+   let profileModal = this.modalController.create(SubscribeComponent);
+   profileModal.present();
+/*			this.iap.getProducts(['AllAccess'])
 					 .then((products) => {
 					   console.log(products);
 					    //  [{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
@@ -128,7 +133,7 @@ export class Trainer {
 			  .then(data => this.iap.consume(data.productType, data.receipt, data.signature))
 			  .then(() => console.log('product was successfully consumed!'))
 			  .catch( err=> console.log(err))
-
+*/
 	}
 
   	linkTo(link) {

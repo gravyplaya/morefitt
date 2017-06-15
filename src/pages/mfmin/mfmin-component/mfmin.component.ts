@@ -4,8 +4,9 @@ import { NavController, LoadingController, AlertController } from 'ionic-angular
 import { Http, ResponseContentType } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs/Rx';
-//import  Firebase from 'firebase';
 import * as Firebase from 'firebase';
+import { AngularFireAuth } from 'angularfire2/auth';
+
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 //import { FacebookConnectComponent } from '../../facebook-connect/facebook-connect-component/facebook-connect.component';
@@ -27,45 +28,27 @@ export class MfminComponent {
   public _clipsdb: any;
   public _clipsstore: any;
   public _mfmindb: any;
-  public _mfminstore: any;
+  public _mfminstore: any;  
 
-  constructor(public navCtrl: NavController, private loadingController: LoadingController, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http,  public alertCtrl: AlertController) {
-    
-    this.isLoggedIn();
-    
-  }
+  constructor(public navCtrl: NavController, private loadingController: LoadingController, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http,  public alertCtrl: AlertController, private angularFireAuth: AngularFireAuth
+) {}
 
-
-    isLoggedIn() {
-        this.storage.get('user')
-        .then(data => {
-            if(data) {
-                this.user = JSON.parse(data);
+  ngOnInit() {
+    this.angularFireAuth.authState.subscribe(data => {
+      if (data) {
+          this.user = data;
                 this._clipsdb = Firebase.database().ref(`clips/${this.user.uid}/`);
                 this._clipsstore = Firebase.storage().ref(`clips/${this.user.uid}/`);
                 this._mfmindb = Firebase.database().ref(`mfmins/${this.user.uid}/`);
                 this._mfminstore = Firebase.storage().ref(`mfmins/${this.user.uid}/`);
                 this.getClips();
                 this.getMFMins();
-            } else {
-                 this.storage.get('facebook.user')
-                      .then(data2 => {
-                          if(data2) {
-                              this.user = JSON.parse(data2);
-                              this._clipsdb = Firebase.database().ref(`clips/${this.user.id}/`);
-                              this._clipsstore = Firebase.storage().ref(`clips/${this.user.id}/`);
-                              this._mfmindb = Firebase.database().ref(`mfmins/${this.user.id}/`);
-                              this._mfminstore = Firebase.storage().ref(`mfmins/${this.user.id}/`);
-                              this.getClips();
-                              this.getMFMins();
-                          }
-                      })
-                      .catch(err => console.log(err));
-            }
-        })
-        .catch(err => console.log(err));
-        console.log(this.user);
-    }
+      } else {
+        this.user = null;
+      }
+
+    });
+  }
 
 
   startrecording() {

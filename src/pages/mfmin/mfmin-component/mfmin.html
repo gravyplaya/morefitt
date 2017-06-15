@@ -23,7 +23,7 @@
 <h2 *ngIf="mfmins">Transformations</h2>
     <div *ngIf="mfmins">
       <div *ngFor="let mfmin of mfmins" style="width: 100px;height: 150px; float: left; margin-bottom: 50px"  text-center>
-          <video src="{{mfmin.url}}"  type="video/mp4" width="150" height="150"></video><br /><button ion-button color="danger" (click)="delMFmin(mfmin.url, mfmin.id)" round small>Delete</button>
+          <video src="{{mfmin.url}}"  type="video/mp4" width="150" height="150" preload x-webkit-airplay="allow" playsinline webkit-playsinline></video><br /><button ion-button color="danger" (click)="delMFmin(mfmin.url, mfmin.id)" round small>Delete</button>
       </div>
       <div style="clear: both"></div>
     </div>
@@ -31,7 +31,7 @@
 <h2 *ngIf="clips">Clips</h2>
     <div *ngIf="clips">
       <div *ngFor="let clip of clips" style="width: 100px;height: 150px; float: left; margin-bottom: 50px"  text-center>
-          <video src="{{clip.url}}"  type="video/mp4" width="150" height="150"></video><br />{{clip.date}}<br /><button ion-button color="danger" (click)="delClip(clip.url, clip.id)" round small>Delete</button>
+          <video src="{{clip.url}}"  type="video/mp4" width="150" height="150" preload x-webkit-airplay="allow" playsinline webkit-playsinline></video><br />{{clip.date}}<br /><button ion-button color="danger" (click)="delClip(clip.url, clip.id)" round small>Delete</button>
       </div>
       <div style="clear: both"></div>
     </div>

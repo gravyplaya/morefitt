@@ -22,6 +22,8 @@ import { BarcodeScannerModule } from '../pages/barcode-scanner/barcode-scanner.m
 import { ChartsModule } from '../pages/charts/charts.module';
 // Module Example: Use the PlaceholderModule for any new App Module
 import { PlaceholderModule } from '../pages/placeholder/placeholder.module';
+import { SubscribeModule } from '../pages/subscribe/subscribe.module';
+
 import { MfminModule } from '../pages/mfmin/mfmin.module';
 import { TrifectaModule } from '../pages/trifecta/trifecta.module';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
@@ -62,6 +64,7 @@ const cloudSettings: CloudSettings = {
     BarcodeScannerModule,
     ChartsModule,
     PlaceholderModule,
+    SubscribeModule,
     MfminModule,
     TrifectaModule,
     CloudModule.forRoot(cloudSettings),
