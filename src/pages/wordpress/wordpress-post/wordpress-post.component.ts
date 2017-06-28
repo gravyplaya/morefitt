@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavParams, LoadingController } from 'ionic-angular';
+import { NavParams, LoadingController, Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Http } from '@angular/http';
-
 import { WordpressService } from '../shared/services/wordpress.service';
+import { StreamingMedia } from '@ionic-native/streaming-media';
 
 @Component({
 	templateUrl: './wordpress-post.html',
@@ -15,6 +15,7 @@ export class WordpressPost {
 	postMetas: any;
     authorData: any;
     comments = [];
+    isAndroid: boolean;
 
 	constructor(
 			private navParams: NavParams,
@@ -22,21 +23,23 @@ export class WordpressPost {
 			private loadingController: LoadingController,
 			private iab: InAppBrowser,
 			private socialSharing: SocialSharing,
-			private http: Http
+			private http: Http,
+			public plt: Platform,
+			private streamingMedia: StreamingMedia
 		) {
-		if (navParams.get('post')) {
-			this.post = navParams.get('post');
-			this.getPostMetas(this.post.id);
-			// this.authorData = this.post["_embedded"].author[0];
-			// if(this.post["_embedded"].replies) {
-			//  	this.comments = this.post["_embedded"].replies[0];
-			// }
-		}
+		this.isAndroid = this.plt.is('android');
 		if (navParams.get('id')) {
 			this.getPost(navParams.get('id'));
-			
+		}
+		if (this.navParams.get('post')) {
+			this.post = this.navParams.get('post');
+			this.getPostMetas(this.post.id);
+			//console.log(this.getPostMetas(this.post.id));
+
 		}
 	}
+
+
 
 	getPost(id) {
 		let loader = this.loadingController.create({
@@ -58,8 +61,8 @@ export class WordpressPost {
 	getPostMetas(id) {
 		this.wordpressService.getPostMetas(id)
 		.subscribe(result => {
-			if (result.hasOwnProperty("days")) this.postMetas = result.days;
-			if (result.hasOwnProperty("meals")) this.postMetas = result.meals;	
+			if (result.hasOwnProperty("days"))  { this.postMetas = result.days;  };
+			if (result.hasOwnProperty("meals")) { this.postMetas = result.meals;  };	
 		});
 	}
 
@@ -77,5 +80,8 @@ export class WordpressPost {
         setTimeout(() => this.socialSharing.share(message, subject, '', url), 0);
 		
 	}
+  playVideo(vid){
+	this.streamingMedia.playVideo(vid);
+  }
 
 }

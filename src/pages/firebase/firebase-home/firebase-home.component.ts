@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
 import { NavController, ToastController, Platform } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -9,6 +10,7 @@ import { FirebaseResetPasswordComponent } from '../firebase-reset-password/fireb
 import * as firebase from 'firebase/app';
 import { Storage } from '@ionic/storage';
 
+import { InAppPurchase } from '@ionic-native/in-app-purchase';
 
 @Component({
   templateUrl: './firebase-home.html'
@@ -17,6 +19,8 @@ export class FirebaseHomeComponent {
   
   auth: any;
   loading: boolean;
+    subd: boolean  = false;
+  isIOS: boolean; 
 
   constructor(
     private navController: NavController,
@@ -25,10 +29,13 @@ export class FirebaseHomeComponent {
     private firebaseDB: AngularFireDatabase,
     private platform: Platform,
     private storage: Storage,
+    private iap: InAppPurchase,
+    private http: Http,
     private fb: Facebook) {}
 
   ngOnInit() {
     this.loading = true;
+    this.isIOS = this.platform.is('ios');
     this.angularFireAuth.authState.subscribe(data => {
       if (data) {
           this.auth = data;
@@ -78,6 +85,50 @@ export class FirebaseHomeComponent {
          }
       });
     }
+  }
+
+  restorePurchases() {
+    if (!this.isIOS) {
+      this.iap.restorePurchases()
+       .then((res) => {
+         console.log(res);
+           if (res.state == 0) {
+             this.subd = true;
+          this.storage.set('subd', true);
+           }
+
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+      }
+
+    if (this.isIOS) {
+      this.iap.getReceipt()
+       .then((res) => {
+          // production url: https://buy.itunes.apple.com/verifyReceipt
+                  this.http.post('https://buy.itunes.apple.com/verifyReceipt', JSON.stringify({"receipt-data": res, "password": "69de8559225b46b7a898e21f03be11d2"}))
+                    .map(response => response.json())
+                    .subscribe(
+                        response => {
+                            if (response.status == 0) {
+                                console.log(response);
+                               this.subd = true;
+                              this.storage.set('subd', true);
+                            } else {
+                                console.log(response);
+                            }
+                        }, error => {
+                            console.log(error);
+                        }
+                    );
+         
+
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+      } 
   }
 
   login() {

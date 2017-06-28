@@ -8,6 +8,8 @@ import { WordpressService } from '../shared/services/wordpress.service';
 import { WordpressPost } from '../wordpress-post/wordpress-post.component';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
 import { SubscribeComponent } from '../../subscribe/subscribe-component/subscribe.component';
+import { StreamingMedia } from '@ionic-native/streaming-media';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 
 
 @Component({
@@ -36,7 +38,9 @@ export class Trainer {
 			private socialSharing: SocialSharing,
 			private http: Http,
 			private storage: Storage,
-			private iap: InAppPurchase
+			private iap: InAppPurchase,
+			private streamingMedia : StreamingMedia,
+			private ga: GoogleAnalytics
 		) {
 		if (navParams.get('post')) {
 			this.post = navParams.get('post');
@@ -54,6 +58,15 @@ export class Trainer {
 			
 		}
 		this.getUser();
+
+		this.storage.get('subd')
+	    .then(value => {
+	        if(value) {
+	        	this.subd = value;
+	        } else {
+	        	this.subd = false;
+	        }
+	    });
 	}
 
 
@@ -155,7 +168,10 @@ export class Trainer {
         setTimeout(() => this.socialSharing.share(message, subject, '', url), 0);
 		
 	}
-
+  playVideo(vid){
+    this.ga.trackEvent("video", "view trainer video")
+      this.streamingMedia.playVideo(vid);   
+  }
 	loadPost(post) {
 		this.navController.push(WordpressPost, {
 			post: post

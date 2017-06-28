@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { MediaCapture, MediaFile, CaptureError, CaptureVideoOptions } from '@ionic-native/media-capture';
-import { NavController, LoadingController, AlertController } from 'ionic-angular';
-import { Http, ResponseContentType } from '@angular/http';
+import { NavController, LoadingController, AlertController, Platform } from 'ionic-angular';
+import { Http, ResponseContentType, Headers } from '@angular/http';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs/Rx';
 import * as Firebase from 'firebase';
 import { AngularFireAuth } from 'angularfire2/auth';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { StreamingMedia } from '@ionic-native/streaming-media';
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
-//import { FacebookConnectComponent } from '../../facebook-connect/facebook-connect-component/facebook-connect.component';
 import { FirebaseHomeComponent } from '../../firebase/firebase-home/firebase-home.component';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { PhotoLibrary, RequestAuthorizationOptions } from '@ionic-native/photo-library';
 
 @Component({
   selector: 'page-placeholder',
@@ -28,10 +30,13 @@ export class MfminComponent {
   public _clipsdb: any;
   public _clipsstore: any;
   public _mfmindb: any;
-  public _mfminstore: any;  
+  public _mfminstore: any; 
+  public isAndroid: any; 
 
-  constructor(public navCtrl: NavController, private loadingController: LoadingController, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http,  public alertCtrl: AlertController, private angularFireAuth: AngularFireAuth
-) {}
+  constructor(public navCtrl: NavController, private loadingController: LoadingController, private socialSharing: SocialSharing, public mediaCapture: MediaCapture,  public camera: Camera, public file: File, public storage: Storage, public http: Http,  public alertCtrl: AlertController, private angularFireAuth: AngularFireAuth, private streamingMedia: StreamingMedia, public plt: Platform, private ga: GoogleAnalytics, private photoLibrary: PhotoLibrary) {
+    this.isAndroid = this.plt.is('android');
+    this.ga.trackView("MFmin");
+  }
 
   ngOnInit() {
     this.angularFireAuth.authState.subscribe(data => {
@@ -48,6 +53,7 @@ export class MfminComponent {
       }
 
     });
+
   }
 
 
@@ -67,19 +73,17 @@ export class MfminComponent {
                   this._clipsstore.child(data[0].name).put(blobb)
                     .then((savedVideo) => {
                       // save file location to db. 
-                      this._clipsdb.push({date: now, url: savedVideo.downloadURL}); 
+                      //shorten  url for sharing 
+                      this.shortenUrl(savedVideo.downloadURL).then(result2 => {
+                          this._clipsdb.push({date: now, url: savedVideo.downloadURL, shortUrl: result2});
+                      });
+                       
                       //save to mfmins for page display
                       
                     }); 
                 })
               .catch(err => console.log(err)); 
         },
-
-          //puts the video in the video tag
-         // this.guestVideo = data[0].fullPath;
-         //       video.src = data[0].fullPath;
-         //       video.play();
-         //},
         (err: CaptureError) => console.error(err)
       
   )}
@@ -93,6 +97,7 @@ export class MfminComponent {
           rawList.push({
             id: snap.key,
             url: snap.val().url,
+            shortUrl: snap.val().shortUrl,
             date: snap.val().date
           });
         return false
@@ -109,7 +114,9 @@ export class MfminComponent {
         snapshot.forEach( snap => {
           rawList.push({
             id: snap.key,
-            url: snap.val().url
+            url: snap.val().url,
+            shortUrl: snap.val().shortUrl,
+            date: snap.val().date
           });
         return false
         });
@@ -253,8 +260,10 @@ export class MfminComponent {
                                          var dlurl = snapshot.downloadURL;
                                           let x = new Date();
                                           let now = x.toLocaleDateString('en-US'); 
-                                         console.log(dlurl);
-                                         self._mfmindb.push({date: now, url: dlurl});
+                                             self.shortenUrl(dlurl).then(result2 => {
+                                                  self._mfmindb.push({date: now, url: dlurl, shortUrl: result2});
+                                              });
+                                         
                                          loader.dismiss();
                                     });
                                 }, error => {
@@ -272,6 +281,57 @@ export class MfminComponent {
     }); 
     
   }
+
+  saveVideo(url) {
+    
+    let options: RequestAuthorizationOptions = { read: true, write: true};
+
+    this.photoLibrary.requestAuthorization(options).then(() => {
+      this.photoLibrary.saveVideo(url, "More Fitt").then(() => {
+          console.log("video saved to library");
+      })
+      .catch(err2 => console.log(err2));
+    })
+    .catch(err => console.log(err));
+  }
+
+  playVideo(vid){
+    this.ga.trackEvent("video", "view mf min video")
+      this.streamingMedia.playVideo(vid);   
+  }
+
+
+
+  share(url) {
+    let subject = "View my video";
+    let message = "I have a video to share. ";
+    setTimeout(() => this.socialSharing.share(message, subject, '', url), 0);
+    this.ga.trackEvent("share", "mf min");
+  }
+
+shortenUrl(url) {
+
+    let body = JSON.stringify({"longUrl": url});
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return new Promise(resolve => {
+        this.http.post('https://www.googleapis.com/urlshortener/v1/url/?key=AIzaSyB4X-q9_F-aLYm_lbaN8IbSG7GjCRgRgtE', body, {headers: headers})
+            .map(response => response.json())
+            .subscribe(
+                response => {
+                    if (response) {
+                        resolve(response.id);
+                    } else {
+                        resolve(false);
+                    }
+                }, error => {
+                    resolve(false);
+                }
+            );
+    });
+
+}
+
 
   login(post) {
     this.navCtrl.push(FirebaseHomeComponent);

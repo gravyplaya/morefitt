@@ -7,9 +7,9 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content class="post" [ngStyle]="{'background-image': 'url('+post.avatar+')', 'background-size':'cover'}">
+<ion-content class="post" [ngStyle]="{'background-image': 'url('+post.avatar+')', 'background-size': 'auto'}">
 <div padding>
-          <button class="button button-small button-clear subscribed next" ion-button round full padding (click)="subscribe()" *ngIf="!subd"><strong>SUBSCRIBE</strong></button>
+          <button class="button button-small button-clear subscribe next" ion-button round full padding (click)="subscribe()" *ngIf="!subd"><strong>SUBSCRIBE</strong></button>
         <button class="button button-small button-clear subscribed" ion-button full round padding *ngIf="subd" >SUBSCRIBED</button>
 </div>
 <div >

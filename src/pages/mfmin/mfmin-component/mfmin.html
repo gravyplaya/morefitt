@@ -9,31 +9,59 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding overflow-scroll="true">
       <div text-center>
         <p class="last-name"><img src="assets/img/blacklogo-50px.png" align="middle"> <strong>TRANSFORMATIONS</strong></p>
         <p class="header " >More Fitt Transformations allows you to upload a 1 second personal selfie video everyday to track your bodies subtle changes. You will then be able to mash these 1 second videos into a movie that shows your daily transformation.</p>
         
-  <button ion-button *ngIf="user" (click)="startrecording()">Create Clip</button> <button ion-button *ngIf="!user" (click)="login()">Login to continue</button>
+  <button ion-button *ngIf="user" (click)="startrecording()">Record Clip</button> <button ion-button *ngIf="!user" (click)="login()">Login to continue</button>
   <button ion-button *ngIf="user" (click)="makevideo()">Create Transformation</button>
       </div>
+<p>&nbsp;</p>
+  <div *ngIf="mfmins">
+    <h2>Transformations</h2>
+      <ion-slides pager  slidesPerView="4" >
+        <ion-slide *ngFor="let mfmin of mfmins" margin-right text-center>
+
+              <button ion-button (tap)="playVideo(mfmin.url)" round large  outline><ion-icon name="play" ></ion-icon></button>
+              <br />{{mfmin.date}}<br />
+              <!--button ion-button (tap)="saveVideo(mfmin.url)" round small icon-left><ion-icon name="cloud-download"></ion-icon>Save</button-->
+              <button ion-button (tap)="share(mfmin.shortUrl)" round small icon-left><ion-icon name="share"></ion-icon>Share</button>
+              <button ion-button color="danger" (tap)="delMFmin(mfmin.url, mfmin.id)" round small icon-left><ion-icon name="trash"></ion-icon>Delete</button>
+
+        </ion-slide>
+      </ion-slides>
+  </div>
+<p>&nbsp;</p>
+
+  <div *ngIf="clips">
+    <h2>Clips</h2>
+      <ion-slides pager  slidesPerView="4" >
+
+        <ion-slide *ngFor="let clip of clips" margin-right text-center>
+
+                  <button ion-button (tap)="playVideo(clip.url)" round  outline><ion-icon name="play" ></ion-icon></button>
+                      <br />{{clip.date}}<br />
+                      <!--button ion-button (tap)="saveVideo(clip.url)" round small icon-left><ion-icon name="cloud-download"></ion-icon>Save</button-->
+                      <button ion-button (tap)="share(clip.shortUrl)" round small  icon-left><ion-icon name="share"></ion-icon>Share</button>
+                    <button ion-button color="danger" (tap)="delClip(clip.url, clip.id)" round small icon-left><ion-icon name="trash"></ion-icon>Delete</button>
+
+        </ion-slide>
 
 
-  
-<h2 *ngIf="mfmins">Transformations</h2>
-    <div *ngIf="mfmins">
-      <div *ngFor="let mfmin of mfmins" style="width: 100px;height: 150px; float: left; margin-bottom: 50px"  text-center>
-          <video src="{{mfmin.url}}"  type="video/mp4" width="150" height="150" preload x-webkit-airplay="allow" playsinline webkit-playsinline></video><br /><button ion-button color="danger" (click)="delMFmin(mfmin.url, mfmin.id)" round small>Delete</button>
-      </div>
-      <div style="clear: both"></div>
-    </div>
-
-<h2 *ngIf="clips">Clips</h2>
-    <div *ngIf="clips">
-      <div *ngFor="let clip of clips" style="width: 100px;height: 150px; float: left; margin-bottom: 50px"  text-center>
-          <video src="{{clip.url}}"  type="video/mp4" width="150" height="150" preload x-webkit-airplay="allow" playsinline webkit-playsinline></video><br />{{clip.date}}<br /><button ion-button color="danger" (click)="delClip(clip.url, clip.id)" round small>Delete</button>
-      </div>
-      <div style="clear: both"></div>
+      </ion-slides>
+    <!--div class="row" style="flex-wrap: wrap;">
+      <div class="col" *ngFor="let clip of clips" text-center>
+                      
+                    
+                      <button ion-button (tap)="playVideo(clip.url)" round  outline><ion-icon name="play" ></ion-icon></button>
+                      <br />{{clip.date}}<br />
+                      <button ion-button (tap)="share(clip.url)" round small  icon-left><ion-icon name="share"></ion-icon>Share</button>
+                      <button ion-button (tap)="saveVideo(clip.url)" round small icon-left><ion-icon name="cloud-download"></ion-icon>Download</button>
+                    <button ion-button color="danger" (tap)="delClip(clip.url, clip.id)" round small icon-left><ion-icon name="trash"></ion-icon>Delete</button>
+        </div>
+      </div-->
+      
     </div>
 
 </ion-content>

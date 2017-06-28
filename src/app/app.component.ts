@@ -21,6 +21,8 @@ import { FacebookConnectComponent } from '../pages/facebook-connect/facebook-con
 import { WordpressMenus } from '../pages/wordpress/wordpress-menus/wordpress-menus.component';
 import { ContactComponent } from '../pages/contact/contact-component/contact.component';
 import { FirebaseHomeComponent } from '../pages/firebase/firebase-home/firebase-home.component';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+
 
 @Component({
 	templateUrl: './app.html'
@@ -35,6 +37,7 @@ export class MyApp {
 	wordpressMenusNavigation: boolean = false;
 	products = "";
 	user: any;
+	subd: boolean;
 
 
 	constructor(
@@ -46,36 +49,13 @@ export class MyApp {
     //public wc: WooCommerceAPI,
     	public deploy: Deploy,
 		private config: Config,
-		private loadingController: LoadingController
-		
+		private loadingController: LoadingController,
+		private ga: GoogleAnalytics		
 		) {
 		this.initializeApp();
 
-	/*	Firebase.initializeApp({
-		    apiKey: "AIzaSyAnPe6oEIsF2ohe6zmDdMz6_7C_9yMyOBc",
-		    authDomain: "morefitt-44f0a.firebaseapp.com",
-		    databaseURL: "https://morefitt-44f0a.firebaseio.com",
-		    projectId: "morefitt-44f0a",
-		    storageBucket: "morefitt-44f0a.appspot.com",
-		    messagingSenderId: "159420957521"
-		}); */
 
-
-
-
-
-	/*	Firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-				// User is signed in.
-				var uid = user.uid;
-				var email = user.email;
-				storage.set('user', JSON.stringify(user));
-
-			} else {
-				console.log('logged out')
-			}
-			}); */
-	
+// SET LANGUAGE	
 		this.translate.setDefaultLang('en');
 		storage.get('language').then((value) => {
 			if (value) {
@@ -83,6 +63,13 @@ export class MyApp {
 			} else {
 				this.translate.use('en');
 				this.storage.set('language', 'en');
+			}
+		});
+		storage.get('subd').then((value) => {
+			if (value) {
+				this.subd = true;
+			} else {
+				this.storage.set('subd', false);
 			}
 		});
 
@@ -130,7 +117,7 @@ export class MyApp {
 			this.isLoggedIn();
 // if on device then activate the deploy plugin
 			if (this.platform.is('cordova')) {
-					// set the deploy channel
+					// SET DEPLOY CHANNEL
 			    	//this.deploy.channel = 'dev';
 			    	// check and remove obsolete deploys from device to save space
 			    	this.deploy.getSnapshots().then((snapshots) => {
@@ -154,7 +141,14 @@ export class MyApp {
 					  }
 					});  
 			}
+//SET TRACKING
+		this.ga.startTrackerWithId('UA-92256699-1')
+		   .then(() => {
+		   	this.ga.setAllowIDFACollection(false);
+     	     this.ga.trackEvent("open", "app initialized");
 
+		   })
+		   .catch(e => console.log('Error starting GoogleAnalytics', e));
 
 		});
 	}

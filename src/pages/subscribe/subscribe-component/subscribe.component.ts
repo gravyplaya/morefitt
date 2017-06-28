@@ -16,16 +16,16 @@ export class SubscribeComponent {
 
 
 	subscribenow() {
- 			this.iap.getProducts(['AllAccess'])
+ 			this.iap.getProducts(['AllAccess', 'allaccess'])
 					 .then((products) => {
-					   console.log(products);
-					       	this.iap.subscribe("AllAccess")
+					   console.dir(products);
+					       	this.iap.subscribe(products[0].productId)
 							  .then(data => this.iap.consume(data.productType, data.receipt, data.signature))
 							  .then(() => console.log('product was successfully consumed!'))
-							  .catch( err=> console.log('subscribe: '+err));
+							  .catch( err=> console.log(err));
 					 })
 					 .catch((err) => {
-					   console.log('getProducts: '+err);
+					   console.dir(err);
 					 });
 
 

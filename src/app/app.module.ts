@@ -1,6 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-
 import { SharedModule } from './shared/shared.module'
 import { HomeModule } from '../pages/home/home.module';
 import { TabsModule } from '../pages/tabs/tabs.module';
@@ -23,14 +22,16 @@ import { ChartsModule } from '../pages/charts/charts.module';
 // Module Example: Use the PlaceholderModule for any new App Module
 import { PlaceholderModule } from '../pages/placeholder/placeholder.module';
 import { SubscribeModule } from '../pages/subscribe/subscribe.module';
-
+import { StreamingMedia } from '@ionic-native/streaming-media';
 import { MfminModule } from '../pages/mfmin/mfmin.module';
 import { TrifectaModule } from '../pages/trifecta/trifecta.module';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { InAppPurchase } from '@ionic-native/in-app-purchase';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 //import { AngularFireModule } from 'angularfire2';
 import { MyApp } from './app.component';
 import { FirebaseModule } from '../pages/firebase/firebase.module';
+import { PhotoLibrary } from '@ionic-native/photo-library';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -74,6 +75,6 @@ const cloudSettings: CloudSettings = {
   entryComponents: [
     MyApp
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, InAppPurchase]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, InAppPurchase, StreamingMedia, GoogleAnalytics, PhotoLibrary]
 })
 export class AppModule {}

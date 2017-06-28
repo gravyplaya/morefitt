@@ -1,13 +1,1 @@
-{
-  "name": "Jon Brownell Fitness - Powered by More Fitt",
-  "short_name": "Jon Brownell Fitness",
-  "start_url": "index.html",
-  "display": "standalone",
-  "icons": [{
-    "src": "assets/imgs/logo.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
-}
+{ "play_store_key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApfazg7VOlxYLVUM4KumThGbHO292/UrUlSoVb6jZPJKFQqQaASFo6SbGRLOy5IbJqONZsifwHd14OFasSsldsM4C/37s9NdO6ci0+PJr3kK8XVynxaj1WBKYYiG04WQ4IKrskt+nZ4ie9mQCmHlg4p6r34masgm0mqHU3dm7iFFMK1M2/ahW7/noET3I5Aw6XAecJIEFxMqOi5ErOvJu3hjpZXz8iQ/9lRnVJNvig0/Ozd7a2IujzI/L4xmA+7Zf4KTTZdvY6q9/3YFOUuXvqBI4yy34sif5n5Hb7TlVuMgfm579HTuFuvtirge7aznJaecDdrgblpXIMEDlwsH1RwIDAQAB" }
